@@ -24,4 +24,18 @@ function exportarXML(){const dados=obterDadosExportacao();let xml='<?xml version
 function exportarXLSX(){const dados=obterDadosExportacao();if(!dados.length)return alert('Nenhum dado disponível para exportação.');const planilha=XLSX.utils.json_to_sheet(dados);const pasta=XLSX.utils.book_new();XLSX.utils.book_append_sheet(pasta,planilha,'Estoque');XLSX.writeFile(pasta,nomeBase()+'.xlsx')}
 function exportarPDF(){const dados=obterDadosExportacao();const{jsPDF}=window.jspdf;const doc=new jsPDF('landscape');doc.setFontSize(13);doc.text('Estoque de Medicamentos - Prefeitura Municipal de Portalegre/RN',14,15);if(!dados.length){doc.text('Nenhum dado disponível para exportação.',14,30);doc.save(nomeBase()+'.pdf');return}const colunas=Object.keys(dados[0]);const linhas=dados.map(item=>colunas.map(c=>item[c]));doc.autoTable({head:[colunas],body:linhas,startY:24,styles:{fontSize:6,cellPadding:1.5},headStyles:{fillColor:[15,86,52]}});doc.save(nomeBase()+'.pdf')}
 async function iniciar(){preencherData();dadosOriginais=await carregarJSON('dados/estoque-medicamentos.json');dadosFiltrados=[...dadosOriginais];popularSelect('filtroUnidade',dadosOriginais.map(i=>i.ponto_dispensacao));popularSelect('filtroPrograma',dadosOriginais.map(i=>i.programa_saude));preencherResumo();preencherTabela()}
+function atualizarDataPosicao() {
+    const hoje = new Date();
+
+    const dataFormatada =
+        hoje.toLocaleDateString("pt-BR");
+
+    const campo = document.getElementById("dataPosicao");
+
+    if (campo) {
+        campo.innerText = dataFormatada;
+    }
+}
+
+atualizarDataPosicao();
 iniciar();
