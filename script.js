@@ -55,7 +55,7 @@ function preencherResumo() {
   if (totalItens) totalItens.textContent = dadosOriginais.length.toLocaleString("pt-BR");
   if (totalMedicamentos) totalMedicamentos.textContent = new Set(dadosOriginais.map(i => textoSeguro(i.codigo) + "|" + textoSeguro(i.medicamento))).size.toLocaleString("pt-BR");
   if (totalUnidades) totalUnidades.textContent = new Set(dadosOriginais.map(i => i.ponto_dispensacao).filter(Boolean)).size.toLocaleString("pt-BR");
-  if (dataBase) dataBase.textContent = dadosOriginais[0]?.data_estoque || "-";
+  if (dataBase) dataBase.textContent = new Date().toLocaleDateString("pt-BR");
 }
 
 function aplicarFiltros() {
