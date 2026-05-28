@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estoque de Medicamentos | Prefeitura Municipal de Portalegre/RN</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+<header class="topo">
+  <div class="container topo-conteudo">
+    <img src="https://www.portalegre.rn.gov.br/imagens/logo.png?time=1779919136" alt="Logo Prefeitura Municipal de Portalegre" class="logo">
+    <span class="etiqueta">Portal da Transparência</span>
+    <h1>Estoque de Medicamentos das Farmácias Públicas</h1>
+    <p>Consulta pública aos medicamentos disponíveis na rede municipal de saúde, com filtros de pesquisa, ponto de dispensação, endereço, lote, validade e quantidade em estoque.</p>
+    <p class="data-atualizacao">Informações do estoque: <strong>26/05/2026</strong> · Página atualizada em: <span id="dataHoje"></span></p>
+    <div class="menu-paginas">
+      <a href="#consulta">Consulta de estoque</a>
+      <a href="#pontos">Pontos de dispensação</a>
+      <a href="#dados-abertos">Dados abertos</a>
+    </div>
+  </div>
+</header>
+
+<section class="painel-info" id="pontos">
+  <div class="container cards-info">
+    <div class="info-card"><span>Ponto de dispensação</span><p>Centro Municipal de Saúde Vicente do Rêgo Filho</p></div>
+    <div class="info-card"><span>Endereço</span><p>Rua Antonio de Freitas - Centro, Portalegre/RN</p></div>
+    <div class="info-card"><span>Contato / horário</span><p>(84) 3377-2022 · Segunda a sexta, das 07h às 17h</p></div>
+  </div>
+</section>
+
+<main id="consulta">
+  <div class="container">
+    <div class="secao-titulo">
+      <div>
+        <h2>Consulta pública</h2>
+        <p>Utilize os filtros para localizar medicamentos por nome, código BR, programa de saúde, lote, validade ou ponto de dispensação.</p>
+      </div>
+      <div class="acoes-consulta">
+        <div class="busca"><input type="search" id="campoBusca" placeholder="Pesquisar medicamento, lote, programa ou unidade..." oninput="aplicarFiltros()"></div>
+        <div class="filtros-linha">
+          <select id="filtroUnidade" onchange="aplicarFiltros()"><option value="">Todas as unidades</option></select>
+          <select id="filtroPrograma" onchange="aplicarFiltros()"><option value="">Todos os programas</option></select>
+          <select id="filtroDisponibilidade" onchange="aplicarFiltros()">
+            <option value="">Todas as situações</option>
+            <option value="disponivel">Com estoque</option>
+            <option value="bloqueado">Bloqueados</option>
+          </select>
+        </div>
+        <div class="botoes-exportacao" id="dados-abertos">
+          <button onclick="exportarCSV()">CSV</button>
+          <button onclick="exportarXLSX()">XLSX</button>
+          <button onclick="exportarJSON()">JSON</button>
+          <button onclick="exportarXML()">XML</button>
+          <button onclick="exportarPDF()">PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="resumo-grid">
+      <div class="resumo-card"><span id="totalItens">0</span><p>registros de estoque</p></div>
+      <div class="resumo-card"><span id="totalMedicamentos">0</span><p>medicamentos distintos</p></div>
+      <div class="resumo-card"><span id="totalUnidades">0</span><p>ponto(s) de dispensação</p></div>
+      <div class="resumo-card"><span id="dataBase">26/05/2026</span><p>data da posição</p></div>
+    </div>
+
+    <div class="bloco">
+      <h3>Divulgação dos estoques de medicamentos das farmácias públicas</h3>
+      <p class="nota-vigencia">As informações são consideradas atuais quando a data da posição do estoque for de, no máximo, 15 dias em relação à data de consulta.</p>
+      <div class="tabela-box">
+        <table>
+          <thead>
+            <tr>
+              <th>Medicamento</th><th>Código BR</th><th>Unid.</th><th>Ponto de dispensação</th><th>Endereço</th><th>Programa</th><th>Lote</th><th>Validade</th><th>Qtde</th><th>Situação</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaEstoque"></tbody>
+        </table>
+      </div>
+      <div class="paginacao"><button class="botao-pagina" onclick="paginaAnterior()">Anterior</button><span id="infoPagina">Página 1 de 1</span><button class="botao-pagina" onclick="proximaPagina()">Próxima</button></div>
+    </div>
+  </div>
+</main>
+<footer class="rodape"><p>© Prefeitura Municipal de Portalegre/RN · Secretaria Municipal de Saúde e Saneamento Básico</p></footer>
+<script src="script.js"></script>
+</body>
+</html>
